@@ -87,25 +87,20 @@
             width: 100%;
         }
 
-        /* Logo circular con MS */
-        .logo-ms {
+        /* LOGO REAL: securemap.png */
+        .logo {
             width: 90px;
             height: 90px;
             border-radius: 50%;
-            background: linear-gradient(135deg, #00d2ff, #6c5ce7);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2.2rem;
-            font-weight: 800;
-            color: #fff;
-            margin: 0 auto 18px;
+            object-fit: cover;
             border: 3px solid #00ff88;
             box-shadow: 0 0 40px rgba(0, 255, 136, 0.25);
-            text-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+            margin: 0 auto 18px;
+            display: block;
             transition: transform 0.3s;
+            background: #0a121f;
         }
-        .logo-ms:hover {
+        .logo:hover {
             transform: scale(1.05);
         }
 
@@ -282,10 +277,9 @@
             .sub {
                 font-size: 1.1em;
             }
-            .logo-ms {
+            .logo {
                 width: 70px;
                 height: 70px;
-                font-size: 1.8rem;
             }
             .scan-btn {
                 padding: 14px 32px;
@@ -320,8 +314,8 @@
         <canvas id="radarCanvas"></canvas>
 
         <div class="hero-content">
-            <!-- LOGO: círculo con MS, sin depender de imagen externa -->
-            <div class="logo-ms">MS</div>
+            <!-- LOGO REAL: securemap.png -->
+            <img src="securemap.png" alt="SecureMap Logo" class="logo" />
 
             <h1 data-i18n="title">📡 SecureMap</h1>
             <p class="sub" data-i18n="subtitle">Escáner de Red WiFi · Seguridad para tu hogar</p>
@@ -624,7 +618,6 @@
                     cy = H / 2,
                     maxR = Math.min(W, H) * 0.42;
 
-                // círculos concéntricos
                 for (let i = 1; i <= 4; i++) {
                     const r = (maxR / 4) * i;
                     ctx.beginPath();
@@ -633,7 +626,6 @@
                     ctx.lineWidth = 0.8;
                     ctx.stroke();
                 }
-                // líneas radiales
                 for (let i = 0; i < 8; i++) {
                     const a = (i / 8) * Math.PI * 2;
                     ctx.beginPath();
@@ -642,7 +634,6 @@
                     ctx.strokeStyle = 'rgba(0,255,136,0.04)';
                     ctx.stroke();
                 }
-                // barrido
                 const sweep = angle;
                 ctx.beginPath();
                 ctx.moveTo(cx, cy);
@@ -660,7 +651,6 @@
                 ctx.fillStyle = grad;
                 ctx.fill();
 
-                // dispositivos
                 devices.forEach(d => {
                     const x = cx + (d.x - 0.5) * maxR * 1.6;
                     const y = cy + (d.y - 0.5) * maxR * 1.6;
@@ -694,7 +684,6 @@
                     }
                 });
 
-                // router
                 ctx.font = 'bold 10px Arial';
                 ctx.fillStyle = 'rgba(0,255,136,0.5)';
                 ctx.textAlign = 'center';
