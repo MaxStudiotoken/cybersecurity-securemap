@@ -4,56 +4,69 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>SecureMap | Escáner de Red WiFi</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet" />
     <style>
-        *{margin:0;padding:0;box-sizing:border-box}
-        body{background:#0a0e14;color:#d0dce8;font-family:Arial,sans-serif;overflow-x:hidden}
-        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Inter', Arial, sans-serif;
+            background: #0a0e14;
+            color: #d0dce8;
+            overflow-x: hidden;
+        }
+
         /* Language Switcher */
         .lang-switcher {
             position: sticky;
             top: 0;
             z-index: 1000;
             background: rgba(10, 14, 20, 0.92);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid #1a2a3a;
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(0, 255, 136, 0.15);
             padding: 10px 20px;
             display: flex;
             justify-content: center;
             flex-wrap: wrap;
-            gap: 8px 16px;
+            gap: 6px 12px;
         }
         .lang-switcher span {
             cursor: pointer;
-            font-size: 1.1rem;
-            padding: 4px 10px;
+            font-size: 0.95rem;
+            padding: 4px 12px;
             border-radius: 30px;
             transition: 0.3s;
             color: #88bbaa;
             font-weight: 600;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.3px;
         }
         .lang-switcher span:hover {
-            background: rgba(0, 255, 136, 0.2);
-            color: #ffffff;
+            background: rgba(0, 255, 136, 0.15);
+            color: #fff;
         }
         .lang-switcher span.active {
             background: #00ff88;
             color: #0a0c10;
-            box-shadow: 0 0 15px rgba(0, 255, 136, 0.4);
+            box-shadow: 0 0 20px rgba(0, 255, 136, 0.3);
         }
         .lang-switcher .flag {
             margin-right: 4px;
         }
 
+        /* Hero */
         .hero {
             position: relative;
             background: #0a121f;
             min-height: 100vh;
-            overflow: hidden;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding-top: 10px;
+            padding: 20px 20px 40px;
+            overflow: hidden;
         }
         #radarCanvas {
             position: absolute;
@@ -70,56 +83,223 @@
             z-index: 2;
             max-width: 1100px;
             margin: 0 auto;
-            padding: 20px;
             text-align: center;
             width: 100%;
         }
-        .logo {
-            width: 80px;
-            height: 80px;
+
+        /* Logo circular con MS */
+        .logo-ms {
+            width: 90px;
+            height: 90px;
             border-radius: 50%;
-            object-fit: cover;
+            background: linear-gradient(135deg, #00d2ff, #6c5ce7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: #fff;
+            margin: 0 auto 18px;
             border: 3px solid #00ff88;
-            box-shadow: 0 0 30px rgba(0, 255, 136, 0.2);
-            margin-bottom: 15px;
+            box-shadow: 0 0 40px rgba(0, 255, 136, 0.25);
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+            transition: transform 0.3s;
         }
+        .logo-ms:hover {
+            transform: scale(1.05);
+        }
+
         h1 {
-            font-size: 3.5em;
-            background: linear-gradient(135deg,#00ff88,#00cc66);
-            -webkit-background-clip:text;
-            -webkit-text-fill-color:transparent;
+            font-size: 3.8em;
+            font-weight: 800;
+            background: linear-gradient(135deg, #00ff88, #00cc66);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
             display: inline-block;
+            letter-spacing: -1px;
         }
-        .sub{font-size:1.2em;color:#88bbaa;margin-top:8px}
-        .badge{display:inline-block;margin-top:12px;background:rgba(0,255,136,0.12);border:1px solid #00ff88;color:#00ff88;padding:6px 20px;border-radius:30px;font-size:.9em}
+        .sub {
+            font-size: 1.3em;
+            color: #88bbaa;
+            margin-top: 8px;
+            font-weight: 400;
+        }
+        .badge {
+            display: inline-block;
+            margin-top: 14px;
+            background: rgba(0, 255, 136, 0.1);
+            border: 1px solid #00ff88;
+            color: #00ff88;
+            padding: 8px 24px;
+            border-radius: 50px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            backdrop-filter: blur(4px);
+        }
         .scan-btn {
             position: relative;
             z-index: 3;
-            margin-top:25px;
-            background:#00ff88;
-            border:none;
-            color:#0a0c10;
-            padding:14px 40px;
-            border-radius:50px;
-            font-weight:700;
-            font-size:1.2rem;
-            cursor:pointer;
-            transition:.3s;
-            box-shadow:0 0 30px rgba(0,255,136,0.2);
+            margin-top: 28px;
+            background: #00ff88;
+            border: none;
+            color: #0a0c10;
+            padding: 16px 48px;
+            border-radius: 60px;
+            font-weight: 700;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: 0.3s;
+            box-shadow: 0 0 40px rgba(0, 255, 136, 0.2);
+            letter-spacing: 0.5px;
         }
-        .scan-btn:hover{transform:scale(1.05)}
-        .scan-btn.scanning{background:#ff6644;box-shadow:0 0 40px rgba(255,100,68,0.3)}
-        
-        .desc{background:#0c1620;padding:25px;border-radius:16px;border:1px solid #1a2a3a;margin:30px auto;max-width:900px;text-align:left}
-        .desc p{margin-bottom:12px;line-height:1.6}
-        .desc ul{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:0}
-        .desc ul li{background:#0f1a26;padding:8px 12px;border-radius:8px;border-left:3px solid #00ff88;font-size:.9rem}
-        .download-box{background:linear-gradient(145deg,#0c1a20,#081018);padding:30px;border-radius:30px;border:2px solid #00ff88;text-align:center;margin:30px auto;max-width:700px}
-        .download-box a{display:inline-block;background:#00ff88;color:#0a0c10;padding:14px 40px;border-radius:50px;font-weight:700;text-decoration:none;font-size:1.2rem;transition:.3s}
-        .download-box a:hover{background:#44ffaa;transform:scale(1.05)}
-        footer{margin-top:40px;padding:20px;text-align:center;border-top:1px solid #1a2a3a;color:#556677}
-        footer a{color:#00ff88;text-decoration:none}
-        @media(max-width:600px){.desc ul{grid-template-columns:1fr};h1{font-size:2.2em}}
+        .scan-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 60px rgba(0, 255, 136, 0.35);
+        }
+        .scan-btn.scanning {
+            background: #ff6644;
+            box-shadow: 0 0 50px rgba(255, 100, 68, 0.4);
+            animation: pulse-btn 1s infinite;
+        }
+        @keyframes pulse-btn {
+            0%,100% { transform: scale(1); }
+            50% { transform: scale(1.03); }
+        }
+
+        /* Sección de descripción */
+        .desc {
+            background: rgba(12, 22, 32, 0.8);
+            backdrop-filter: blur(8px);
+            padding: 30px 35px;
+            border-radius: 24px;
+            border: 1px solid rgba(0, 255, 136, 0.12);
+            margin: 40px auto 30px;
+            max-width: 900px;
+            text-align: left;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+            transition: 0.3s;
+        }
+        .desc:hover {
+            border-color: rgba(0, 255, 136, 0.3);
+        }
+        .desc h2 {
+            font-size: 1.6rem;
+            border-left: 5px solid #00ff88;
+            padding-left: 18px;
+            margin-bottom: 20px;
+            color: #fff;
+        }
+        .desc p {
+            margin-bottom: 14px;
+            line-height: 1.7;
+            color: #c8d8e0;
+        }
+        .desc ul {
+            list-style: none;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            padding: 0;
+            margin-top: 6px;
+        }
+        .desc ul li {
+            background: rgba(15, 26, 38, 0.7);
+            padding: 10px 16px;
+            border-radius: 12px;
+            border-left: 3px solid #00ff88;
+            font-size: 0.95rem;
+            transition: 0.2s;
+        }
+        .desc ul li:hover {
+            background: rgba(0, 255, 136, 0.06);
+        }
+
+        /* Caja de descarga */
+        .download-box {
+            background: linear-gradient(145deg, #0c1a20, #081018);
+            padding: 40px 30px;
+            border-radius: 32px;
+            border: 2px solid #00ff88;
+            text-align: center;
+            margin: 20px auto 40px;
+            max-width: 700px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+        .download-box h2 {
+            color: #fff;
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+        .download-box p {
+            color: #b0c8d8;
+            margin-bottom: 20px;
+            font-size: 1.05rem;
+        }
+        .download-box a {
+            display: inline-block;
+            background: #00ff88;
+            color: #0a0c10;
+            padding: 16px 48px;
+            border-radius: 60px;
+            font-weight: 700;
+            text-decoration: none;
+            font-size: 1.2rem;
+            transition: 0.3s;
+            box-shadow: 0 0 30px rgba(0, 255, 136, 0.15);
+        }
+        .download-box a:hover {
+            background: #44ffaa;
+            transform: scale(1.04);
+            box-shadow: 0 0 50px rgba(0, 255, 136, 0.3);
+        }
+
+        /* Footer */
+        footer {
+            margin-top: 20px;
+            padding: 30px 20px;
+            text-align: center;
+            border-top: 1px solid rgba(0, 255, 136, 0.08);
+            color: #556677;
+        }
+        footer a {
+            color: #00ff88;
+            text-decoration: none;
+            transition: 0.2s;
+        }
+        footer a:hover {
+            color: #44ffaa;
+            text-decoration: underline;
+        }
+
+        @media (max-width: 600px) {
+            .desc ul {
+                grid-template-columns: 1fr;
+            }
+            h1 {
+                font-size: 2.4em;
+            }
+            .sub {
+                font-size: 1.1em;
+            }
+            .logo-ms {
+                width: 70px;
+                height: 70px;
+                font-size: 1.8rem;
+            }
+            .scan-btn {
+                padding: 14px 32px;
+                font-size: 1rem;
+            }
+            .download-box a {
+                padding: 14px 28px;
+                font-size: 1rem;
+            }
+            .lang-switcher span {
+                font-size: 0.8rem;
+                padding: 2px 8px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -138,22 +318,24 @@
 
     <div class="hero">
         <canvas id="radarCanvas"></canvas>
-        
+
         <div class="hero-content">
-            <img src="maxstudio.jpg" alt="MaxStudio Logo" class="logo" onerror="this.style.display='none'" />
+            <!-- LOGO: círculo con MS, sin depender de imagen externa -->
+            <div class="logo-ms">MS</div>
+
             <h1 data-i18n="title">📡 SecureMap</h1>
             <p class="sub" data-i18n="subtitle">Escáner de Red WiFi · Seguridad para tu hogar</p>
             <div class="badge" data-i18n="badge">🛡️ Detecta intrusos · Analiza dispositivos</div>
             <br>
             <button class="scan-btn" id="scanBtn" data-i18n="scan_btn">🔍 Escanear red</button>
-            
+
             <div style="margin-top:30px;text-align:left;max-width:900px;margin-left:auto;margin-right:auto;">
                 <div class="desc">
-                    <h2 style="color:#fff;border-left:5px solid #00ff88;padding-left:15px;margin-bottom:15px;" data-i18n="what_title">📋 ¿Qué es SecureMap?</h2>
+                    <h2 data-i18n="what_title">📋 ¿Qué es SecureMap?</h2>
                     <p data-i18n="what_p1"><strong>SecureMap</strong> es una app de seguridad para que entiendas qué pasa en tu red y móvil de forma visual y fácil. <strong>Mapea y analiza tu entorno</strong>, detecta dispositivos conectados, te avisa de riesgos y te da herramientas para protegerte.</p>
                     <p data-i18n="what_p2"><strong>Con SecureMap puedes:</strong></p>
                     <ul>
-                        <li data-i18n="li1">📶 Escanear tu Wi-Fi y detectar dispositivos visibles</li>
+                        <li data-i18n="li1">📶 Escanear tu Wi‑Fi y detectar dispositivos visibles</li>
                         <li data-i18n="li2">ℹ️ Ver IP, MAC, fabricante y nivel de identificación</li>
                         <li data-i18n="li3">🟢 Marcar dispositivos como seguros o en revisión</li>
                         <li data-i18n="li4">🚫 Expulsar y bloquear dispositivos localmente</li>
@@ -163,8 +345,8 @@
                 </div>
 
                 <div class="download-box">
-                    <h2 style="color:#fff;font-size:1.8em;" data-i18n="download_title">📲 Descarga SecureMap</h2>
-                    <p style="color:#b0c8d8;margin-bottom:15px;" data-i18n="download_sub">Totalmente gratuita · Sin anuncios</p>
+                    <h2 data-i18n="download_title">📲 Descarga SecureMap</h2>
+                    <p data-i18n="download_sub">Totalmente gratuita · Sin anuncios</p>
                     <a href="https://play.google.com/store/apps/details?id=vargas.maximo.securemap" target="_blank" data-i18n="download_btn">Ir a Google Play</a>
                 </div>
 
@@ -188,7 +370,7 @@
                 what_title: "📋 ¿Qué es SecureMap?",
                 what_p1: "<strong>SecureMap</strong> es una app de seguridad para que entiendas qué pasa en tu red y móvil de forma visual y fácil. <strong>Mapea y analiza tu entorno</strong>, detecta dispositivos conectados, te avisa de riesgos y te da herramientas para protegerte.",
                 what_p2: "<strong>Con SecureMap puedes:</strong>",
-                li1: "📶 Escanear tu Wi-Fi y detectar dispositivos visibles",
+                li1: "📶 Escanear tu Wi‑Fi y detectar dispositivos visibles",
                 li2: "ℹ️ Ver IP, MAC, fabricante y nivel de identificación",
                 li3: "🟢 Marcar dispositivos como seguros o en revisión",
                 li4: "🚫 Expulsar y bloquear dispositivos localmente",
@@ -209,7 +391,7 @@
                 what_title: "📋 What is SecureMap?",
                 what_p1: "<strong>SecureMap</strong> is a security app that helps you understand what's happening on your network and phone in a visual and easy way. <strong>Map and analyze your environment</strong>, detect connected devices, get risk alerts, and use tools to protect yourself.",
                 what_p2: "<strong>With SecureMap you can:</strong>",
-                li1: "📶 Scan your Wi-Fi and detect visible devices",
+                li1: "📶 Scan your Wi‑Fi and detect visible devices",
                 li2: "ℹ️ See IP, MAC, manufacturer, and identification level",
                 li3: "🟢 Mark devices as safe or under review",
                 li4: "🚫 Kick out and block devices locally",
@@ -230,7 +412,7 @@
                 what_title: "📋 Qu'est-ce que SecureMap ?",
                 what_p1: "<strong>SecureMap</strong> est une application de sécurité qui vous aide à comprendre ce qui se passe sur votre réseau et votre téléphone de manière visuelle et simple. <strong>Cartographiez et analysez votre environnement</strong>, détectez les appareils connectés, recevez des alertes de risque et utilisez des outils pour vous protéger.",
                 what_p2: "<strong>Avec SecureMap vous pouvez :</strong>",
-                li1: "📶 Scanner votre Wi-Fi et détecter les appareils visibles",
+                li1: "📶 Scanner votre Wi‑Fi et détecter les appareils visibles",
                 li2: "ℹ️ Voir IP, MAC, fabricant et niveau d'identification",
                 li3: "🟢 Marquer les appareils comme sécurisés ou en révision",
                 li4: "🚫 Expulser et bloquer les appareils localement",
@@ -251,7 +433,7 @@
                 what_title: "📋 Cos'è SecureMap?",
                 what_p1: "<strong>SecureMap</strong> è un'app di sicurezza che ti aiuta a capire cosa succede sulla tua rete e sul tuo telefono in modo visivo e semplice. <strong>Mappa e analizza il tuo ambiente</strong>, rileva dispositivi connessi, ricevi avvisi di rischio e usa strumenti per proteggerti.",
                 what_p2: "<strong>Con SecureMap puoi:</strong>",
-                li1: "📶 Scansionare il tuo Wi-Fi e rilevare dispositivi visibili",
+                li1: "📶 Scansionare il tuo Wi‑Fi e rilevare dispositivi visibili",
                 li2: "ℹ️ Vedere IP, MAC, produttore e livello di identificazione",
                 li3: "🟢 Contrassegnare i dispositivi come sicuri o in revisione",
                 li4: "🚫 Espellere e bloccare i dispositivi localmente",
@@ -272,7 +454,7 @@
                 what_title: "📋 什么是SecureMap？",
                 what_p1: "<strong>SecureMap</strong> 是一款安全应用，帮助您以直观简单的方式了解网络和手机上发生的情况。<strong>映射和分析您的环境</strong>，检测连接设备，获取风险警报，并使用工具保护自己。",
                 what_p2: "<strong>使用SecureMap您可以：</strong>",
-                li1: "📶 扫描Wi-Fi并检测可见设备",
+                li1: "📶 扫描Wi‑Fi并检测可见设备",
                 li2: "ℹ️ 查看IP、MAC、制造商和识别级别",
                 li3: "🟢 将设备标记为安全或待审",
                 li4: "🚫 本地驱逐和阻止设备",
@@ -286,14 +468,14 @@
             },
             ru: {
                 title: "📡 SecureMap",
-                subtitle: "Сканер Wi-Fi сети · Безопасность для вашего дома",
+                subtitle: "Сканер Wi‑Fi сети · Безопасность для вашего дома",
                 badge: "🛡️ Обнаруживает злоумышленников · Анализирует устройства",
                 scan_btn: "🔍 Сканировать сеть",
                 scan_btn_stop: "⏹️ Остановить сканирование",
                 what_title: "📋 Что такое SecureMap?",
                 what_p1: "<strong>SecureMap</strong> — это приложение безопасности, которое помогает вам понять, что происходит в вашей сети и на телефоне, визуально и просто. <strong>Картографируйте и анализируйте свою среду</strong>, обнаруживайте подключенные устройства, получайте предупреждения о рисках и используйте инструменты для защиты.",
                 what_p2: "<strong>С SecureMap вы можете:</strong>",
-                li1: "📶 Сканировать Wi-Fi и обнаруживать видимые устройства",
+                li1: "📶 Сканировать Wi‑Fi и обнаруживать видимые устройства",
                 li2: "ℹ️ Видеть IP, MAC, производителя и уровень идентификации",
                 li3: "🟢 Отмечать устройства как безопасные или на проверке",
                 li4: "🚫 Выгонять и блокировать устройства локально",
@@ -302,19 +484,19 @@
                 download_title: "📲 Скачать SecureMap",
                 download_sub: "Полностью бесплатно · Без рекламы",
                 download_btn: "Перейти в Google Play",
-                footer_copy: "© 2026 <strong style='color:#00ff88;'>SecureMap</strong> · Сканер Wi-Fi сети",
+                footer_copy: "© 2026 <strong style='color:#00ff88;'>SecureMap</strong> · Сканер Wi‑Fi сети",
                 footer_made: "Сделано с ❤️ от <a href='https://MaxStudiotoken.github.io/maxstudio/'>MaxStudio</a>"
             },
             de: {
                 title: "📡 SecureMap",
-                subtitle: "WiFi-Netzwerk-Scanner · Sicherheit für Ihr Zuhause",
+                subtitle: "Wi‑Fi‑Netzwerk‑Scanner · Sicherheit für Ihr Zuhause",
                 badge: "🛡️ Erkennt Eindringlinge · Analysiert Geräte",
                 scan_btn: "🔍 Netzwerk scannen",
                 scan_btn_stop: "⏹️ Scan stoppen",
                 what_title: "📋 Was ist SecureMap?",
                 what_p1: "<strong>SecureMap</strong> ist eine Sicherheits-App, die Ihnen hilft, visuell und einfach zu verstehen, was in Ihrem Netzwerk und auf Ihrem Telefon passiert. <strong>Kartieren und analysieren Sie Ihre Umgebung</strong>, erkennen Sie verbundene Geräte, erhalten Sie Risikowarnungen und nutzen Sie Tools zum Schutz.",
                 what_p2: "<strong>Mit SecureMap können Sie:</strong>",
-                li1: "📶 Ihr Wi-Fi scannen und sichtbare Geräte erkennen",
+                li1: "📶 Ihr Wi‑Fi scannen und sichtbare Geräte erkennen",
                 li2: "ℹ️ IP, MAC, Hersteller und Identifikationsgrad anzeigen",
                 li3: "🟢 Geräte als sicher oder zur Überprüfung markieren",
                 li4: "🚫 Geräte lokal auswerfen und blockieren",
@@ -323,7 +505,7 @@
                 download_title: "📲 SecureMap herunterladen",
                 download_sub: "Völlig kostenlos · Ohne Werbung",
                 download_btn: "Zu Google Play",
-                footer_copy: "© 2026 <strong style='color:#00ff88;'>SecureMap</strong> · WiFi-Netzwerk-Scanner",
+                footer_copy: "© 2026 <strong style='color:#00ff88;'>SecureMap</strong> · Wi‑Fi‑Netzwerk‑Scanner",
                 footer_made: "Mit ❤️ gemacht von <a href='https://MaxStudiotoken.github.io/maxstudio/'>MaxStudio</a>"
             },
             pt: {
@@ -335,7 +517,7 @@
                 what_title: "📋 O que é o SecureMap?",
                 what_p1: "<strong>SecureMap</strong> é um aplicativo de segurança que ajuda você a entender o que está acontecendo em sua rede e no seu celular de forma visual e fácil. <strong>Mapeie e analise seu ambiente</strong>, detecte dispositivos conectados, receba alertas de risco e use ferramentas para se proteger.",
                 what_p2: "<strong>Com o SecureMap você pode:</strong>",
-                li1: "📶 Escanear seu Wi-Fi e detectar dispositivos visíveis",
+                li1: "📶 Escanear seu Wi‑Fi e detectar dispositivos visíveis",
                 li2: "ℹ️ Ver IP, MAC, fabricante e nível de identificação",
                 li3: "🟢 Marcar dispositivos como seguros ou em revisão",
                 li4: "🚫 Expulsar e bloquear dispositivos localmente",
@@ -349,7 +531,7 @@
             }
         };
 
-        // ==================== SELECCIÓN DE IDIOMA ====================
+        // ==================== IDIOMA ====================
         const langSwitcher = document.getElementById('languageSwitcher');
         const allLangSpans = langSwitcher.querySelectorAll('span');
         const i18nElements = document.querySelectorAll('[data-i18n]');
@@ -357,37 +539,28 @@
         function setLanguage(lang) {
             allLangSpans.forEach(span => {
                 span.classList.remove('active');
-                if (span.dataset.lang === lang) {
-                    span.classList.add('active');
-                }
+                if (span.dataset.lang === lang) span.classList.add('active');
             });
-
             i18nElements.forEach(el => {
                 const key = el.dataset.i18n;
                 if (translations[lang] && translations[lang][key] !== undefined) {
                     if (el.tagName === 'BUTTON' && key === 'scan_btn') {
-                        // Si el botón está en modo "detener", no cambiar el texto
                         const btn = document.getElementById('scanBtn');
                         if (!btn.classList.contains('scanning')) {
                             el.innerHTML = translations[lang][key];
-                        } else {
-                            // Pero guardamos la traducción para cuando vuelva a estado normal
-                            el.dataset.i18n_stop = translations[lang].scan_btn_stop;
                         }
                     } else {
                         el.innerHTML = translations[lang][key];
                     }
                 }
             });
-
             document.documentElement.lang = lang;
         }
 
         allLangSpans.forEach(span => {
-            span.addEventListener('click', function(e) {
+            span.addEventListener('click', function() {
                 const lang = this.dataset.lang;
                 setLanguage(lang);
-                // Actualizar también el texto del botón si está en modo escaneo
                 const btn = document.getElementById('scanBtn');
                 if (btn.classList.contains('scanning')) {
                     btn.textContent = translations[lang].scan_btn_stop || '⏹️ Detener escaneo';
@@ -419,23 +592,24 @@
             }
 
             function randomDev() {
-                const type = deviceIcons[Math.floor(Math.random()*deviceIcons.length)];
-                const state = states[Math.floor(Math.random()*states.length)];
+                const type = deviceIcons[Math.floor(Math.random() * deviceIcons.length)];
+                const state = states[Math.floor(Math.random() * states.length)];
                 return {
-                    type, state,
-                    x: 0.1+Math.random()*0.8,
-                    y: 0.1+Math.random()*0.8,
-                    r: 16+Math.random()*12,
-                    ip: `192.168.1.${Math.floor(Math.random()*254+1)}`
+                    type,
+                    state,
+                    x: 0.1 + Math.random() * 0.8,
+                    y: 0.1 + Math.random() * 0.8,
+                    r: 16 + Math.random() * 12,
+                    ip: `192.168.1.${Math.floor(Math.random() * 254 + 1)}`
                 };
             }
 
-            function initDevices(n=7) {
+            function initDevices(n = 7) {
                 devices = [];
-                for(let i=0;i<n;i++) devices.push(randomDev());
-                if(devices.length) {
+                for (let i = 0; i < n; i++) devices.push(randomDev());
+                if (devices.length) {
                     devices[0].type = '📟';
-                    devices[0].state = {label:'Seguro',color:'#00ff88'};
+                    devices[0].state = { label: 'Seguro', color: '#00ff88' };
                     devices[0].ip = '192.168.1.1';
                     devices[0].x = 0.5;
                     devices[0].y = 0.5;
@@ -445,105 +619,112 @@
 
             function draw() {
                 if (!W || !H) return;
-                ctx.clearRect(0,0,W,H);
-                const cx = W/2, cy = H/2, maxR = Math.min(W,H)*0.42;
+                ctx.clearRect(0, 0, W, H);
+                const cx = W / 2,
+                    cy = H / 2,
+                    maxR = Math.min(W, H) * 0.42;
 
-                for(let i=1;i<=4;i++) {
-                    const r = maxR/4*i;
+                // círculos concéntricos
+                for (let i = 1; i <= 4; i++) {
+                    const r = (maxR / 4) * i;
                     ctx.beginPath();
-                    ctx.arc(cx,cy,r,0,Math.PI*2);
-                    ctx.strokeStyle = `rgba(0,255,136,${0.06+i*0.02})`;
+                    ctx.arc(cx, cy, r, 0, Math.PI * 2);
+                    ctx.strokeStyle = `rgba(0,255,136,${0.06 + i * 0.02})`;
                     ctx.lineWidth = 0.8;
                     ctx.stroke();
                 }
-                for(let i=0;i<8;i++) {
-                    const a = i/8*Math.PI*2;
+                // líneas radiales
+                for (let i = 0; i < 8; i++) {
+                    const a = (i / 8) * Math.PI * 2;
                     ctx.beginPath();
-                    ctx.moveTo(cx,cy);
-                    ctx.lineTo(cx+Math.cos(a)*maxR, cy+Math.sin(a)*maxR);
+                    ctx.moveTo(cx, cy);
+                    ctx.lineTo(cx + Math.cos(a) * maxR, cy + Math.sin(a) * maxR);
                     ctx.strokeStyle = 'rgba(0,255,136,0.04)';
                     ctx.stroke();
                 }
+                // barrido
                 const sweep = angle;
                 ctx.beginPath();
-                ctx.moveTo(cx,cy);
-                ctx.lineTo(cx+Math.cos(sweep)*maxR, cy+Math.sin(sweep)*maxR);
+                ctx.moveTo(cx, cy);
+                ctx.lineTo(cx + Math.cos(sweep) * maxR, cy + Math.sin(sweep) * maxR);
                 ctx.strokeStyle = 'rgba(0,255,136,0.5)';
                 ctx.lineWidth = 2;
                 ctx.stroke();
-                const grad = ctx.createRadialGradient(cx,cy,0,cx,cy,maxR);
-                grad.addColorStop(0,'rgba(0,255,136,0.12)');
-                grad.addColorStop(1,'rgba(0,255,136,0)');
+                const grad = ctx.createRadialGradient(cx, cy, 0, cx, cy, maxR);
+                grad.addColorStop(0, 'rgba(0,255,136,0.12)');
+                grad.addColorStop(1, 'rgba(0,255,136,0)');
                 ctx.beginPath();
-                ctx.moveTo(cx,cy);
-                ctx.arc(cx,cy,maxR,sweep-0.15,sweep+0.15);
+                ctx.moveTo(cx, cy);
+                ctx.arc(cx, cy, maxR, sweep - 0.15, sweep + 0.15);
                 ctx.closePath();
                 ctx.fillStyle = grad;
                 ctx.fill();
 
+                // dispositivos
                 devices.forEach(d => {
-                    const x = cx + (d.x-0.5)*maxR*1.6;
-                    const y = cy + (d.y-0.5)*maxR*1.6;
+                    const x = cx + (d.x - 0.5) * maxR * 1.6;
+                    const y = cy + (d.y - 0.5) * maxR * 1.6;
                     ctx.beginPath();
-                    ctx.arc(x,y,d.r,0,Math.PI*2);
-                    ctx.fillStyle = d.state.color+'22';
+                    ctx.arc(x, y, d.r, 0, Math.PI * 2);
+                    ctx.fillStyle = d.state.color + '22';
                     ctx.strokeStyle = d.state.color;
                     ctx.lineWidth = 1.5;
                     ctx.fill();
                     ctx.stroke();
-                    ctx.font = `${d.r*1.1}px Arial`;
+                    ctx.font = `${d.r * 1.1}px Arial`;
                     ctx.textAlign = 'center';
                     ctx.textBaseline = 'middle';
                     ctx.fillStyle = '#fff';
-                    ctx.fillText(d.type, x, y-2);
+                    ctx.fillText(d.type, x, y - 2);
                     ctx.font = '8px Arial';
                     ctx.fillStyle = 'rgba(200,220,240,0.6)';
-                    ctx.fillText(d.ip, x, y+d.r+12);
+                    ctx.fillText(d.ip, x, y + d.r + 12);
                     ctx.beginPath();
-                    ctx.arc(x+d.r+4, y-d.r+4, 4, 0, Math.PI*2);
+                    ctx.arc(x + d.r + 4, y - d.r + 4, 4, 0, Math.PI * 2);
                     ctx.fillStyle = d.state.color;
                     ctx.fill();
-                    if(d.state.label==='Sospechoso'||d.state.label==='Bloqueado') {
+                    if (d.state.label === 'Sospechoso' || d.state.label === 'Bloqueado') {
                         ctx.beginPath();
-                        ctx.arc(x,y,d.r+4,0,Math.PI*2);
-                        ctx.strokeStyle = d.state.color+'66';
+                        ctx.arc(x, y, d.r + 4, 0, Math.PI * 2);
+                        ctx.strokeStyle = d.state.color + '66';
                         ctx.lineWidth = 1.5;
-                        ctx.setLineDash([3,6]);
+                        ctx.setLineDash([3, 6]);
                         ctx.stroke();
                         ctx.setLineDash([]);
                     }
                 });
 
+                // router
                 ctx.font = 'bold 10px Arial';
                 ctx.fillStyle = 'rgba(0,255,136,0.5)';
                 ctx.textAlign = 'center';
                 ctx.textBaseline = 'bottom';
-                ctx.fillText('ROUTER', cx, cy-34);
-                const pulse = Math.sin(Date.now()/800)*0.5+0.5;
+                ctx.fillText('ROUTER', cx, cy - 34);
+                const pulse = Math.sin(Date.now() / 800) * 0.5 + 0.5;
                 ctx.beginPath();
-                ctx.arc(cx,cy,6+pulse*6,0,Math.PI*2);
-                ctx.fillStyle = `rgba(0,255,136,${0.2+pulse*0.3})`;
+                ctx.arc(cx, cy, 6 + pulse * 6, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(0,255,136,${0.2 + pulse * 0.3})`;
                 ctx.fill();
 
-                if(scanning) {
+                if (scanning) {
                     ctx.font = 'bold 16px Arial';
                     ctx.fillStyle = '#ffcc66';
                     ctx.textAlign = 'center';
                     ctx.textBaseline = 'top';
-                    const dots = '.'.repeat(scanCount%4);
-                    ctx.fillText(`ESCANEANDO${dots}`, cx, cy+50);
-                    const susp = devices.filter(d => d.state.label==='Sospechoso'||d.state.label==='Bloqueado');
-                    if(susp.length) {
+                    const dots = '.'.repeat(scanCount % 4);
+                    ctx.fillText(`ESCANEANDO${dots}`, cx, cy + 50);
+                    const susp = devices.filter(d => d.state.label === 'Sospechoso' || d.state.label === 'Bloqueado');
+                    if (susp.length) {
                         ctx.font = 'bold 14px Arial';
                         ctx.fillStyle = '#ff6644';
                         ctx.textBaseline = 'bottom';
-                        ctx.fillText(`⚠️ ${susp.length} dispositivo(s) sospechoso(s)`, cx, cy-60);
+                        ctx.fillText(`⚠️ ${susp.length} dispositivo(s) sospechoso(s)`, cx, cy - 60);
                     }
                 }
 
                 angle += scanning ? 0.05 : 0.02;
-                if(angle>Math.PI*2) angle-=Math.PI*2;
-                if(scanning) scanCount++;
+                if (angle > Math.PI * 2) angle -= Math.PI * 2;
+                if (scanning) scanCount++;
                 requestAnimationFrame(draw);
             }
 
@@ -551,16 +732,16 @@
                 scanning = !scanning;
                 const btn = document.getElementById('scanBtn');
                 const lang = document.documentElement.lang || 'es';
-                if(scanning) {
+                if (scanning) {
                     btn.textContent = translations[lang]?.scan_btn_stop || '⏹️ Detener escaneo';
                     btn.classList.add('scanning');
-                    const newCount = 2+Math.floor(Math.random()*3);
-                    for(let i=0;i<newCount;i++) {
+                    const newCount = 2 + Math.floor(Math.random() * 3);
+                    for (let i = 0; i < newCount; i++) {
                         const nd = randomDev();
-                        if(Math.random()>0.5) nd.state = {label:'Sospechoso',color:'#ff6644'};
+                        if (Math.random() > 0.5) nd.state = { label: 'Sospechoso', color: '#ff6644' };
                         devices.push(nd);
                     }
-                    if(devices.length>16) devices = devices.slice(0,16);
+                    if (devices.length > 16) devices = devices.slice(0, 16);
                 } else {
                     btn.textContent = translations[lang]?.scan_btn || '🔍 Escanear red';
                     btn.classList.remove('scanning');
@@ -575,7 +756,7 @@
             document.getElementById('scanBtn').addEventListener('click', toggleScan);
         })();
 
-        // Inicializar idioma por defecto (español)
+        // Idioma inicial
         setLanguage('es');
     </script>
 </body>
